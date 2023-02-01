@@ -1,22 +1,28 @@
 package org.hibernate.bugs.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 public class Grandchild {
     @Id
-    private final String id;
+    @GeneratedValue
+    @Column
+    private UUID id;
 
-    protected Grandchild() {
+    @Column
+    private String aField;
+
+    public Grandchild() {
         this(null);
     }
 
-    public Grandchild(String id) {
-        this.id = id;
+    public Grandchild(String aField) {
+        this.aField = aField;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 }

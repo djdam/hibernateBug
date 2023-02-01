@@ -3,6 +3,7 @@ package org.hibernate.bugs;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.hibernate.bugs.model.AnotherParent;
 import org.hibernate.bugs.model.Child;
 import org.hibernate.bugs.model.Grandchild;
 import org.hibernate.bugs.model.Parent;
@@ -34,12 +35,15 @@ public class JPAUnitTestCase {
 
     @Test
     public void hhh16007Test() {
+
         assertThatCode(() ->
                 doInTransaction(entityManager -> {
-                    var parent1 = new Parent("123", null);
-                    var parent2 = new Parent("124", new Child(List.of(new Grandchild("xyz"))));
-                    entityManager.merge(parent1);
-                    entityManager.merge(parent2);
+                    var parent1 = new Parent(null);
+                    var anotherParent1 = new AnotherParent(List.of(new Grandchild("xyz")));
+                    var parent2 = new Parent(new Child(List.of(new Grandchild("xyz"))));
+                    entityManager.persist(parent1);
+                    entityManager.persist(parent2);
+                    entityManager.persist(anotherParent1);
                 })).doesNotThrowAnyException();
     }
 

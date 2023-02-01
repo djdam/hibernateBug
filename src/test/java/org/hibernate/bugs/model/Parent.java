@@ -1,26 +1,27 @@
 package org.hibernate.bugs.model;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 public class Parent {
     @Id
-    private final String id;
+    @GeneratedValue
+    @Column
+    private UUID id;
     @Embedded
     private final Child child;
 
     protected Parent() {
-        this(null, null);
+        this(null);
     }
 
-    public Parent(String id, Child child) {
-        this.id = id;
+    public Parent(Child child) {
         this.child = child;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
