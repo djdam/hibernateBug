@@ -33,18 +33,14 @@ public class JPAUnitTestCase {
     }
 
     @Test
-    public void hhh16007Test() throws Exception {
-        doInTransaction(entityManager -> {
-            var parent = new Parent("123", new Child(List.of(new Grandchild("xyz"))));
-            entityManager.persist(parent);
-        });
-
-
+    public void hhh16007Test() {
         assertThatCode(() ->
-                doInTransaction(entityManager ->
-                        entityManager.remove(entityManager.getReference(Parent.class, "123"))
-                )
-        ).doesNotThrowAnyException();
+                doInTransaction(entityManager -> {
+                    var parent1 = new Parent("123", null);
+                    var parent2 = new Parent("124", new Child(List.of(new Grandchild("xyz"))));
+                    entityManager.merge(parent1);
+                    entityManager.merge(parent2);
+                })).doesNotThrowAnyException();
     }
 
     private void doInTransaction(Consumer<EntityManager> action) {
