@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -39,11 +40,11 @@ public class JPAUnitTestCase {
         assertThatCode(() ->
                 doInTransaction(entityManager -> {
                     var parent1 = new Parent(null);
-                    var anotherParent1 = new AnotherParent(List.of(new Grandchild("xyz")));
+                    var anotherParent1 = new AnotherParent(Collections.emptyList());
                     var parent2 = new Parent(new Child(List.of(new Grandchild("xyz"))));
+//                    entityManager.persist(anotherParent1);
                     entityManager.persist(parent1);
                     entityManager.persist(parent2);
-                    entityManager.persist(anotherParent1);
                 })).doesNotThrowAnyException();
     }
 

@@ -11,6 +11,7 @@ public class AnotherParent {
     @Column
     private UUID id;
 
+    @JoinColumn(name = "another_parent_id", nullable = false)
     @OneToMany(cascade = CascadeType.ALL)
     private final List<Grandchild> grandchildren = new ArrayList<>();
 
